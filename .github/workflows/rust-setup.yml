@@ -1,0 +1,69 @@
+name: Rust Project Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache APT packages and lists
+        uses: actions/cache@v3
+        with:
+          path: |
+            /var/cache/apt
+            /var/lib/apt/lists
+          key: ${{ runner.os }}-apt-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-
+
+      - name: Cache Cargo registry
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-registry-
+
+      - name: Cache Rust toolchain
+        uses: actions/cache@v3
+        with:
+          path: ~/.rustup/toolchains
+          key: ${{ runner.os }}-rust-toolchain-${{ hashFiles('rust-toolchain') }}
+          restore-keys: |
+            ${{ runner.os }}-rust-toolchain-
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          # sudo apt install build-essential
+          # sudo apt install pkg-config libssl-dev
+          sudo apt-get install -y libopenblas-dev graphviz
+          # liblapack-dev  libblas-dev
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Install cargo-depgraph
+        run: cargo install cargo-depgraph
+
+      - name: Install cargo-machete
+        run: cargo install cargo-machete
+    
+      - name: Set TERM environment variable
+        run: echo "TERM=xterm" >> $GITHUB_ENV
+
+      - name: Format the code
+        run: make prep
+
+      - name: Run tests
+        run: make test

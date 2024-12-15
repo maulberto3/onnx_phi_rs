@@ -1,0 +1,65 @@
+[package]
+name = "onnx_phi_rs"
+description = "An example of how to run phi models with onnxruntime in Rust"
+version = "0.0.1"
+edition = "2021"
+rust-version = "1.83"
+license = "MIT OR Apache-2.0"
+# repository = "https://github.com/pykeio/ort"
+# homepage = "https://ort.pyke.io/"
+readme = "README.md"
+keywords = [ "onnx","onnxruntime", "ort", "phi", "llm" ]
+categories = [ "deep learning", "machine learning", "inference" ]
+authors = ["Mauricio Maroto maulberto3@hotmail.com"]
+include = [ "src/", "benches/", "README.md" ]
+# exclude = [
+#     ".cargo/**",
+#     ".devcontainer/**",
+#     ".github/**",
+#     "assets/**",
+#     "*.orig",
+#     "Makefile",
+#     "dependencies_graph_of_current_cargo_toml.png",
+# ]
+
+[profile.dev]
+opt-level = 0
+debug = 0
+lto = false
+codegen-units = 256
+incremental = true
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = 'abort'
+
+
+
+# [workspace]
+# members = [
+# 	'ort-sys',
+# 	'examples/async-gpt2-api',
+# 	'examples/custom-ops',
+# 	'examples/gpt2',
+# 	'examples/model-info',
+# 	'examples/yolov8',
+# 	'examples/phi-3-vision',
+# 	'examples/phi3',
+# 	'examples/modnet',
+# 	'examples/sentence-transformers',
+# 	'examples/training'
+# ]
+# default-members = [
+# 	'.',
+# 	'examples/async-gpt2-api',
+# 	'examples/custom-ops',
+# 	'examples/gpt2',
+# 	'examples/model-info',
+# 	'examples/phi3',
+# 	'examples/yolov8',
+# 	'examples/modnet',
+# 	'examples/sentence-transformers'
+# ]
+# exclude = [ 'examples/cudarc' ]
