@@ -1,7 +1,7 @@
 dev-size:
-	clear && du ./target/debug/haru_cmaes -h
+	clear && du ./target/debug/onnx_phi_rs -h
 prod-size:
-	clear && du ./target/release/haru_cmaes -h
+	clear && du ./target/release/onnx_phi_rs -h
 
 clean:
 	cargo cache --autoclean && cargo clean
@@ -14,7 +14,7 @@ cove:
 tree:
 	cargo tree
 graph-dep:
-	cargo depgraph --all-deps | dot -Tpng > dependencies_graph_of_current_cargo_toml.png
+	cargo depgraph --target-deps | dot -Tpng > dependencies_graph_of_current_cargo_toml.png
 deps:
 	make tree && make graph-dep
 prep:

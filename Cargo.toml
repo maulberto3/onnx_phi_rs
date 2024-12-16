@@ -5,7 +5,7 @@ version = "0.0.1"
 edition = "2021"
 rust-version = "1.83"
 license = "MIT OR Apache-2.0"
-# repository = "https://github.com/pykeio/ort"
+repository = "https://github.com/maulberto3/onnx_phi_rs"
 # homepage = "https://ort.pyke.io/"
 readme = "README.md"
 keywords = [ "onnx","onnxruntime", "ort", "phi", "llm" ]
@@ -21,6 +21,16 @@ include = [ "src/", "benches/", "README.md" ]
 #     "Makefile",
 #     "dependencies_graph_of_current_cargo_toml.png",
 # ]
+
+[dependencies]
+ort = { version = "2.0.0-rc.9", default-features = false, features = ["load-dynamic"] }
+rand = "0.8.5"
+tokenizers = "0.21.0"
+anyhow = { version = "1.0.86" }
+
+[dev-dependencies]
+pprof = { version = "0.13", features = ["flamegraph"] }
+criterion = { version = "0.5.1", features = ["html_reports"] }
 
 [profile.dev]
 opt-level = 0
