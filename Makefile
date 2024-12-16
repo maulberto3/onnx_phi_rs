@@ -22,7 +22,7 @@ prep:
 doct:
 	cargo doc
 exam:
-	cargo run --release --example simple_use
+	ORT_DYLIB_PATH=../onnxruntime-linux-x64-1.20.1/lib/libonnxruntime.so cargo run --release --example simple_use
 build:
 	clear && make clean && make lint && make test && make cove && make deps && make prep && make doct && make exam
 
