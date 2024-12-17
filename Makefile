@@ -22,7 +22,7 @@ prep:
 doct:
 	cargo doc
 exam:
-	ORT_DYLIB_PATH=../onnxruntime-linux-x64-1.20.1/lib/libonnxruntime.so cargo run --release --example simple_use
+	ORT_DYLIB_PATH=../onnxruntime-linux-x64-1.20.1/lib/libonnxruntime.so cargo run --release -- --prompt "Hey, can you tell me a joke involving a cop, an orc (from LOTR movie) and fine irony in between."
 build:
 	clear && make clean && make lint && make test && make cove && make deps && make prep && make doct && make exam
 

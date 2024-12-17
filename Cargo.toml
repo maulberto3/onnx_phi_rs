@@ -1,6 +1,6 @@
 [package]
 name = "onnx_phi_rs"
-description = "An example of how to run phi models with onnxruntime in Rust"
+description = "How to run Phi models with onnxruntime (alone) in Rust"
 version = "0.0.1"
 edition = "2021"
 rust-version = "1.83"
@@ -26,7 +26,11 @@ include = [ "src/", "benches/", "README.md" ]
 ort = { version = "2.0.0-rc.9", default-features = false, features = ["load-dynamic"] }
 rand = "0.8.5"
 tokenizers = "0.21.0"
-anyhow = { version = "1.0.86" }
+rand_distr = "0.4.3"
+clap = { version = "4.5.23", features = ["derive"] }
+# validator = { version = "0.19.0", features = ["derive"] }
+# serde = "1.0.216"
+# anyhow = { version = "1.0.86" }
 
 [dev-dependencies]
 pprof = { version = "0.13", features = ["flamegraph"] }
