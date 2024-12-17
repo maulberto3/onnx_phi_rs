@@ -9,7 +9,7 @@ on:
       - '*'
 
 jobs:
-  install:
+  end-to-end:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -44,26 +44,40 @@ jobs:
           sudo apt-get update
           # sudo apt install build-essential
           # sudo apt install pkg-config libssl-dev
-          sudo apt-get install -y libopenblas-dev graphviz
-          # liblapack-dev  libblas-dev
+          # sudo apt install liblapack-dev libblas-dev libopenblas-dev
+          sudo apt-get install -y graphviz
 
+      - name: Cache ONNX Runtime binaries
+        uses: actions/cache@v3
+        with:
+          path: ./onnxruntime-linux-x64
+          key: onnxruntime-${{ runner.os }}-1.20.1
+
+      - name: Download and extract ONNX Runtime binaries if not cached
+        # if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sL https://github.com/microsoft/onnxruntime/releases/download/v1.20.1/onnxruntime-linux-x64-1.20.1.tgz -o onnxruntime.tgz
+          mkdir -p onnxruntime-linux-x64
+          tar -xzf onnxruntime.tgz -C onnxruntime-linux-x64 --strip-components=1
+  
       - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
 
-      - name: Install cargo-depgraph
-        run: cargo install cargo-depgraph
+      - name: Cargo installs
+        run: cargo install cargo-depgraph cargo-machete
 
-      - name: Install cargo-machete
-        run: cargo install cargo-machete
-    
       - name: Set TERM environment variable
         run: echo "TERM=xterm" >> $GITHUB_ENV
 
       - name: Format the code
+        env:
+          ORT_DYLIB_PATH: ./onnxruntime-linux-x64/lib/libonnxruntime.so
         run: make prep
 
       - name: Run tests
+        env:
+          ORT_DYLIB_PATH: ./onnxruntime-linux-x64/lib/libonnxruntime.so
         run: make test
