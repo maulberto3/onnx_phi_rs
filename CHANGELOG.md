@@ -4,9 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 
+### 🚀 Features
+
+- Cache,  download and use Onnx runtime binaries
+- Requirements for first working inference example
+
 ### 🐛 Bug Fixes
 
 - Make build
+- Forgot about git cliff --init
+- Repo moistly about rust functionality
+- Repo moistly about rust functionality
+- Stop tracking files now ignored
 
 ### 💼 Other
 
